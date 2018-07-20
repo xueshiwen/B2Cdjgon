@@ -1,0 +1,137 @@
+{% extends 'myadmin/public/base.html' %}
+
+{% block b %}
+<title>后台会员编辑</title>
+{% endblock %}
+
+{% block head %}
+<div class="row">
+        <div class="am-u-sm-12 am-u-md-12 am-u-lg-9">
+            <div class="page-header-heading">
+                <span class="am-icon-home page-header-heading-icon"></span> 
+                会员编辑 <small>Amaze UI</small>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block a %}
+<link rel="stylesheet" type="text/css" href="/static/myadmin/css/bootstrap-fileinput.css">
+<div class="row">
+    <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+        <div class="widget am-cf">
+            <div class="widget-body am-fr">
+
+                <form action="{% url 'myadmin_goods_edit' %}?uid={{ uinfo.id }}" method="post" enctype="multipart/form-data" class="am-form tpl-form-line-form">
+                    {% csrf_token %}
+                     <div class="am-form-group">
+                        <label for="user-name" class="am-u-sm-3 am-form-label">
+                            所属分类
+                        </label>
+                        <div class="am-u-sm-9">
+                             <select name="typeid" data-am-selected="{btnSize: 'sm'}">
+                                        <option value="{{ uinfo.typeid.id }}">{{ uinfo.typeid.name }}</option>  
+                                   
+                                {% for v in tlist %}
+                                    
+                                        <option value="{{ v.id }}">{{ v.name }}</option>     
+                                      
+                                {% endfor %}
+                             </select>
+                        </div>
+                    </div>
+
+                    <div class="am-form-group">
+                        <label for="user-name" class="am-u-sm-3 am-form-label">
+                           
+                           商品标题
+                        </label>
+                        <div class="am-u-sm-9">
+                            <input type="text" value="{{ uinfo.title}}" name="title"  required minlength="2" maxlength="20" class="tpl-form-input"  placeholder="请输入用户名">
+                        </div>
+                    </div>
+                  
+
+                    <div class="am-form-group">
+                        <label for="user-name" class="am-u-sm-3 am-form-label">
+                             商品描述
+                        </label>
+                        <div class="am-u-sm-9">
+                            <input type="text" value="{{ uinfo.descr}}" name="descr"  required class="tpl-form-input"  placeholder="请输入邮箱">
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label for="user-name" class="am-u-sm-3 am-form-label">
+                              商品价格
+                        </label>
+                        <div class="am-u-sm-9">
+                            <input type="number" value="{{ uinfo.price}}" name="price" required class="tpl-form-input"  placeholder="请输入手机号">
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label for="user-name" class="am-u-sm-3 am-form-label">
+                             商品库存
+                        </label>
+                        <div class="am-u-sm-9">
+                            <input type="number" value="{{ uinfo.store}}" name="store" class="tpl-form-input"  placeholder="请输入年龄">
+                        </div>
+                    </div>
+
+                    
+                    
+                    <div class="form-group">
+                        <label for="user-weibo" class="am-u-sm-3 am-form-label">上传头像 </label>
+                       <div class="am-u-sm-9 fileinput fileinput-new" data-provides="fileinput"  id="exampleInputUpload">
+                           <div class="tpl-form-file-img fileinput-new thumbnail" >
+                               <img id='picImg'  src="{{ uinfo.pics }}" width="150" />
+                           </div>
+                           <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+                           <div>
+                               <span class="btn btn-primary btn-file">
+                                   <span class="fileinput-new am-btn am-btn-danger am-btn-sm">选择文件</span>
+                                   <span class="fileinput-exists am-btn am-btn-danger am-btn-sm">换一张</span>
+                                   <input type="file" name="pic" id="picID" accept="image/gif,image/jpeg,image/x-png"/>
+                               </span>
+                               <a href="javascript:;" class=" fileinput-exists am-btn am-btn-danger am-btn-sm" data-dismiss="fileinput">移除</a>
+                           </div>
+                       </div>
+                   </div>
+                    
+
+                    <div class="am-form-group">
+                        <label for="user-name" class="am-u-sm-3 am-form-label">
+                            商品详情
+                        </label>
+                        <div class="am-u-sm-9">
+                                <link rel="stylesheet" type="text/css" href="/ueditor/UE/third-party/SyntaxHighlighter/shCoreDefault.css">
+                                <script type="text/javascript" src="/ueditor/UE/third-party/SyntaxHighlighter/shCore.js"></script>
+                                <script type="text/javascript" src="/ueditor/UE/ueditor.config.js"></script>
+                                <script type="text/javascript" src="/ueditor/UE/ueditor.all.min.js"></script>
+                                <script type="text/javascript" src="/ueditor/UE/lang/zh-cn/zh-cn.js"></script>
+
+                                 <script style="color:red" id="editor"  name="info" type="text/plain" style="height:500px;">
+                                        {{ uinfo.info|safe }}
+                                </script>
+                       
+
+
+                                <script type="text/javascript">
+                                    var ue = UE.getEditor('editor');
+                                    SyntaxHighlighter.all();
+                                </script>
+                            </div>
+                        </div>
+
+
+                    <div class="am-form-group">
+                        <div class="am-u-sm-9 am-u-sm-push-3">
+                            <button  class="am-btn am-btn-primary tpl-btn-bg-color-success ">提交</button></div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/static/myadmin/js/bootstrap-fileinput.js"></script>
+{% endblock %}
